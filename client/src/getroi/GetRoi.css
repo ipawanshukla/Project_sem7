@@ -1,0 +1,30 @@
+img{
+    width: 800px;
+    height: 600px;
+
+}
+.image_view{
+    width: 70%;
+    height: 100%;
+    float: left;
+}
+.funct{
+    font-family: Arial, Helvetica, sans-serif !important; 
+    font-size: 10px !important;
+    vertical-align: center;
+    width: 30%;
+    height: 100%;
+    margin-left: 70%;
+    float: center;
+    align-content: center;
+}
+button{
+    width: 90%;
+}
+/* h1{
+    padding-left: 10%
+} */
+body{
+    /* overflow: hidden; */
+    background-color: #195e8b;
+}

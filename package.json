@@ -1,0 +1,32 @@
+{
+  "name": "mernapp",
+  "version": "1.0.0",
+  "description": "| Topics          | Videos                                                               | Date                | | -------         |:--------------------------------------------------------------------:| -------------------:| | Set up Reactjs and Nodejs structure | [video](https://youtu.be/bc2pOPeQyOs)| November 18th 2019 | | Run ReactJS and Nodejs in same terminal - Concurrently | [video](https://youtu.be/1REonFsWBbY)| November 18th, 2019 | | Git workflow | [video](https://www.youtube.com/watch?v=uvqlFuJWcXM)| November 18th, 2019 | | Connect to MongoDB Atlas Cluster with Mongoose | [video](https://youtu.be/OuCrHynro0w)| November 18th, 2019 | | Create & submit a form in Reactjs and resolved cors policy | [video](https://youtu.be/yITlR9vDXXo)| November 18th, 2019 | | Save data to MongoDB with Mongoose | [video](https://youtu.be/jwVCgueYcgE)| November 18th, 2019 | | Get/fetch data from MongoDB and display them in Reactjsh application | [video](https://youtu.be/Mfp94RjugWQ)| November 18th, 2019 | | Apply css styles to a ReactJS application | [video](https://youtu.be/xDsjAk54JSY)| November 18th, 2019 | | How to deploy a MERN Stack App to Heroku | [video](https://youtu.be/5PaUiPyBDJY)| November 18th, 2019 | | Connect MongoDB Atlas to your Heroku application | [video](https://youtu.be/imR9LlbG3pU)| November 18th, 2019 | | Enable automatic deployment to Heroku | [video](https://youtu.be/y_7czmJXK_c)| November 18th, 2019 |",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "node server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently -n 'server,client' -c 'red,green'  \"nodemon server.js\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/icons": "^4.9.1",
+    "aws-sdk": "^2.713.0",
+    "axios": "^0.19.0",
+    "concurrently": "^5.0.0",
+    "draw-shape-reactjs": "^1.0.2",
+    "express": "^4.17.1",
+    "generate-schema": "^2.6.0",
+    "mongoose": "^5.7.9",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.4",
+    "react-modal-video": "^1.2.3"
+  },
+  "devDependencies": {}
+}
