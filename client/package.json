@@ -5,7 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "aws-sdk": "^2.732.0",
+    "aws-sdk": "^2.739.0",
+    "blueimp-canvas-to-blob": "^3.28.0",
     "particle.js": "^1.0.7",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",

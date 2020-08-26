@@ -21,6 +21,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import GetRoi from "../getroi/GetRoi";
 import UserProfile from "../UserProfile/userProfile";
+import CCTV from "../CCTV/cctv";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -65,6 +66,7 @@ function ResponsiveDrawer(props) {
   const compos = [
     <GetRoi email={email}></GetRoi>,
     <UserProfile email={email}></UserProfile>,
+    <CCTV email={email}></CCTV>,
   ];
   const [ind, setInd] = useState(0);
 
@@ -79,6 +81,11 @@ function ResponsiveDrawer(props) {
 
   const UserPress = (event) => {
     setInd(2);
+    console.log("Inside key press", event);
+  };
+
+  const cctvPress = (event) => {
+    setInd(3);
     console.log("Inside key press", event);
   };
 
@@ -104,6 +111,14 @@ function ResponsiveDrawer(props) {
             <PersonIcon></PersonIcon>
           </ListItemIcon>
           <ListItemText primary="Profile"></ListItemText>
+        </ListItem>
+      </List>
+      <List>
+        <ListItem button key={"CCTV"} onClick={cctvPress}>
+          <ListItemIcon>
+            <PersonIcon></PersonIcon>
+          </ListItemIcon>
+          <ListItemText primary="CCTV"></ListItemText>
         </ListItem>
       </List>
       {/* <List>
