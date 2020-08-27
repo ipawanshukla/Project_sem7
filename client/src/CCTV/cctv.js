@@ -1,10 +1,9 @@
 import React from "react";
 import { Box, Typography, Container, Button } from "@material-ui/core";
 // import { dataURLtoBlob } from "blueimp-canvas-to-blob";
-import vid from "./4.mp4";
+import vid from "./vid2.mp4";
 
 const AWS = require("aws-sdk/dist/aws-sdk-react-native");
-const dataURLtoBlob = require("blueimp-canvas-to-blob");
 class CCTV extends React.Component {
   constructor(props) {
     super(props);
@@ -101,7 +100,7 @@ class CCTV extends React.Component {
           li.innerHTML += "<b>Frame at second " + secs + ":</b><br />";
           li.appendChild(img);
           document.getElementById("frames").appendChild(li);
-          secs += 4;
+          secs += 10;
           if (duration >= secs) {
             this.showImageAt(secs);
           }
