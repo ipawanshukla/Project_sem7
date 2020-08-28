@@ -179,6 +179,12 @@ class CCTV extends React.Component {
       } // successful response
     });
   };
+
+  componentWillUnmount = () => {
+    this.setState((state) => ({
+      dis: false,
+    }));
+  };
 }
 
 // #endregion
