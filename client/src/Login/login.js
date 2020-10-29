@@ -31,7 +31,7 @@ class login extends React.Component {
     console.log(this.state);
     var userPayload = {
       email: this.state.email,
-      pass: this.state.pass,
+      pass: this.state.password,
     };
     axios({
       url: "/api/login",
@@ -39,10 +39,20 @@ class login extends React.Component {
       data: userPayload,
     })
       .then((res) => {
-        if (res.status == 200) {
-          this.setState({ redirect: true });
-        }
         console.log("Response from the server ", res);
+        if (res.data != null) {
+          if (
+            res.data.email == this.state.email &&
+            res.data.pass == this.state.password
+          ) {
+            this.setState({ redirect: true });
+          } else {
+            alert("Invalid Credentials");
+          }
+        } else {
+          alert("Invalid Credentials");
+          console.log("Failed Login");
+        }
       })
       .catch(() => {
         console.log("Internal server error");

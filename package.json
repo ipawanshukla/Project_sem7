@@ -26,7 +26,8 @@
     "mongoose": "^5.7.9",
     "morgan": "^1.9.1",
     "nodemon": "^2.0.4",
-    "react-modal-video": "^1.2.3"
+    "react-modal-video": "^1.2.3",
+    "react-promise": "^3.0.2"
   },
   "devDependencies": {}
 }

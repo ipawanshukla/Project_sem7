@@ -1,29 +1,11 @@
 import React from "react";
 import { Box, Container, Typography } from "@material-ui/core";
-// #region constants
-
-// #endregion
-
-// #region styled-components
-
-// #endregion
-
-// #region functions
-
-// #endregion
-
-// #region component
 const propTypes = {};
-
 const defaultProps = {};
 
-/**
- *
- */
 class userProfile extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 

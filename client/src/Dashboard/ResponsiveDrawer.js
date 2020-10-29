@@ -22,6 +22,8 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import GetRoi from "../getroi/GetRoi";
 import UserProfile from "../UserProfile/userProfile";
 import CCTV from "../CCTV/cctv";
+import DistanceCaliberate from "../Distance/DistanceCaliberate";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -67,8 +69,10 @@ function ResponsiveDrawer(props) {
     <GetRoi email={email}></GetRoi>,
     <UserProfile email={email}></UserProfile>,
     <CCTV email={email}></CCTV>,
+    <DistanceCaliberate email={email}></DistanceCaliberate>,
   ];
   const [ind, setInd] = useState(0);
+  
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -80,7 +84,7 @@ function ResponsiveDrawer(props) {
   };
 
   const UserPress = (event) => {
-    setInd(2);
+    setInd(4);
     console.log("Inside key press", event);
   };
 
@@ -106,11 +110,11 @@ function ResponsiveDrawer(props) {
 
       <Divider />
       <List>
-        <ListItem button key={"Profile"} onClick={UserPress}>
+        <ListItem button key={"Distance Caliberate"} onClick={UserPress}>
           <ListItemIcon>
             <PersonIcon></PersonIcon>
           </ListItemIcon>
-          <ListItemText primary="Profile"></ListItemText>
+          <ListItemText primary="Distance Caliberation "></ListItemText>
         </ListItem>
       </List>
       <List>

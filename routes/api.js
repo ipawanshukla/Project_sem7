@@ -25,8 +25,6 @@ router.get("/all", (req, res) => {
 router.post("/insert", (req, res) => {
   const data = req.body;
   console.log("Inside save.");
-  console.log(data.camera);
-  console.log(data.email);
   var update;
   customers
     .findOneAndUpdate({ email: data.email }, data.camera, { new: true })
@@ -41,7 +39,8 @@ router.post("/insert", (req, res) => {
 // Our default route
 // Routes
 router.get("/", (req, res) => {
-  BlogPost.find({})
+  customers
+    .find({})
     .then((data) => {
       // console.log('Data: ', data);
       res.json(data);
@@ -50,6 +49,8 @@ router.get("/", (req, res) => {
       console.log("error: ", error);
     });
 });
+
+router.post("/getDistanceRes", (req, res) => {});
 
 router.post("/find", (req, res) => {
   // console.log('data body received',req.body);
@@ -69,16 +70,12 @@ router.post("/find", (req, res) => {
 
 router.post("/login", (req, res) => {
   const data = req.body;
-  console.log(data);
+  console.log("Login Payload", data);
   const op = customers
     .findOne(data)
     .then((d) => {
-      if (d === null) {
-        console.log("shit");
-      } else {
-        res.json(d);
-        console.log("baap baap hota hai");
-      }
+      console.log("Received Data", typeof d);
+      res.json(d);
     })
     .catch((err) => {
       console.log(err);

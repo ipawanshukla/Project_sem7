@@ -1,5 +1,5 @@
 import React from "react";
-import img from "./img.jpeg";
+import img from "./696.jpg";
 import { Line } from "draw-shape-reactjs";
 
 import axios from "axios";
