@@ -15,7 +15,7 @@ class CCTV extends React.Component {
       distanceFromCamera:[],
       show:[],
       allXy:[],
-      oneMrDisInpixel:105,
+      oneMrDisInpixel:70,
       focal:3,
       dis: false,
       res: [],
@@ -43,42 +43,6 @@ class CCTV extends React.Component {
   };
 
   displayBoundingBox = () =>{
-    if(this.state.gotres){
-      // setTimeout(function(){ console.log("Timeout"); }, 3000);
-      // var canvas = document.createElement("canvas");
-      // var img = this.state.lists[this.state.updatedsec/5];
-      // canvas.height = this.state.videoHeight;
-      // canvas.width = this.state.videoWidth;
-      // var ctx = canvas.getContext("2d");
-      // ctx.drawImage(img, 0, 0, this.state.videoWidth,this.state.videoHeight);
-      // console.log("INside Display bounding",this.state.res[this.state.updatedsec/5]);
-      
-      for( var i=0;i<this.state.res.length;i++){
-        console.log("Elelment",this.state.res[i].values().next());
-      }
-     
-
-      // var left = img_width * aws_op.Left;
-      // var top = img_height * aws_op.Top;
-      // var height = img_height * aws_op.Height;
-      // var width = img_width * aws_op.Width;
-
-
-      // ctx.rect(100,200,300,400);
-      
-
-      // console.log("Image for frame ",this.state.lists[this.state.updatedsec/5]);
-      // console.log("Updated sec",this.state.updatedsec);
-      // console.log("Displaying Updated Sec's data",this.state.res[this.state.updatedsec/5]);
-    //    for (let i = 0; i < this.state.res.length; i++) {
-    //   console.log("Displaying the bounding boxes of ",this.state.res);
-    //   // for(let j=0;j<this.state.res[i][0].length;j++){
-    //   //   console.log("Displaying the bounding boxes of ",this.state.res[i][0][j]);
-    //   // }
-       
-    // }
-
-    }
    
   }
   
@@ -126,46 +90,11 @@ class CCTV extends React.Component {
   }
 
  drrec = () =>{
-//    var canvas = document.createElement("canvas");
-//       var img = this.state.lists[this.state.updatedsec/5];
-//       canvas.height = this.state.videoHeight;
-//       canvas.width = this.state.videoWidth;
-//       var ctx = canvas.getContext("2d");
-
-//       var img_width = this.state.videoWidth;
-//       var img_height = this.state.videoHeight;
-//       const rec=[];
-//       var colors = ["#00ff00","#ff0000"];
-//       // ctx.strokeStyle("#009900");
-//       // ctx.strokeStyle = "#009900";
-//       ctx.drawImage(img, 0, 0, this.state.videoWidth,this.state.videoHeight);
-//       var timg= new Image();
-//       var i=0;
-//       this.state.show.forEach(k=>{
-//         var l = this.state.allXy(i);
-//         i++;
-//         var t = this.state.allXy(i);
-//         i++;
-//         var h = this.state.allXy(i);
-//         i++;
-//         var w = this.state.allXy(i);
-//         i++;
-//         var col=0;
-
-//         if(k<this.state.oneMrDisInpixel){
-//           col=1;
-//         }else{
-//           col=0;
-//         }
-//         ctx.strokeStyle=colors[col];
-//         ctx.strokeRect(l,t,w,h);
-//       })
-// timg.src= canvas.toDataURL();
 
  }
 
  seeState = () =>{
-   console.log(this.state.res[this.state.updatedsec/5][0]);
+  //  console.log(this.state.res[this.state.updatedsec/5][0]);
   if(this.state.res[this.state.updatedsec/5][0]!=null){
       var canvas = document.createElement("canvas");
       var img = this.state.lists[this.state.updatedsec/5];
@@ -182,80 +111,71 @@ class CCTV extends React.Component {
       ctx.drawImage(img, 0, 0, this.state.videoWidth,this.state.videoHeight);
       var timg= new Image();
       var prevx,prevy;
-      for(var i=0;i<this.state.res.length;i++){
-        var cc = i%colors.length;
+      console.log("Total Results Obtained",this.state.res.length);
+
+        var k= this.state.res.length-1;
+        var cc = k%colors.length;
         ctx.strokeStyle= colors[cc];
         var arr2=[];
-        for (let j = 0; j < this.state.res[i][0].length; j++) {
+        console.log("Person Count",this.state.res[k][0].length);
+        for (let j = 0; j < this.state.res[k][0].length; j++) {
           // console.log("Res.state",this.state.res[i][0][j].BoundingBox.Left);
-
-        var left = img_width * this.state.res[i][0][j].BoundingBox.Left;
-        var top = img_height * this.state.res[i][0][j].BoundingBox.Top;
-        var height = img_height * this.state.res[i][0][j].BoundingBox.Height;
-        var width = img_width * this.state.res[i][0][j].BoundingBox.Width;
-        this.state.allXy.push(left);
-        this.state.allXy.push(top);
-        this.state.allXy.push(height);
-        this.state.allXy.push(width);
+        var left = img_width * this.state.res[k][0][j].BoundingBox.Left;
+        var top = img_height * this.state.res[k][0][j].BoundingBox.Top;
+        var height = img_height * this.state.res[k][0][j].BoundingBox.Height;
+        var width = img_width * this.state.res[k][0][j].BoundingBox.Width;
         var midpoint_x = Math.floor((left+width)/2);
         var midpoint_y = Math.floor((top+height)/2);
+        console.log("Mid X",midpoint_x);
+        console.log("Mid X",midpoint_x);
         if(i==0){
           prevx=midpoint_x;
           prevy= midpoint_y;
         }else{
-          var a = midpoint_x-prevx;
-          var b= midpoint_y-prevy;
           var distance=(this.state.focal*(165))/ height;
           console.log("Distance from camers",distance*100);
-          arr2.push(distance);
-          async function tr  (a,b) {
-            var dis=-1;
-            await (dis = Math.sqrt( a*a + b*b ));
-            if(dis!=-1){
-              return dis;
-            }else{
-              return 0;
-            }
-          }
-          var dis = tr(a,b).then((resolve,reject) =>{
-            if(resolve!=null){
-              console.log("Inside promise resolve",resolve);
-              this.state.show.push(resolve);
-              Promise.resolve(resolve);
-            }
-            console.log("State after promise",this.state);
-            this.drrec();
-
-          });
-
-
-           prevx=midpoint_x;
+          arr2.push(midpoint_x);
+          prevx=midpoint_x;
           prevy= midpoint_y;
-          // console.log("Distance Between Midpoint ",dis);
+        // ctx.strokeRect(left,top,width,height);
         }
-
-        console.log("Obtained Midpoint x ",midpoint_x);
-        console.log("Obtained Midpoint y ",midpoint_y);
-        ctx.strokeRect(left,top,width,height);
-        }
-        this.state.distanceFromCamera.push(arr2);
-        
+        rec.push(0);
+        // this.state.distanceFromCamera.push(arr2);
       }
+      for( var i=0;i<arr2.length;i++){
+          for( var j=0;j<arr2.length;j++){
+              if(i==j) continue;
+              var diff= Math.abs(arr2[i]-arr2[j]);
+              console.log("Difference of "+i+" "+j,diff);
+              if(diff<this.state.oneMrDisInpixel){
+                  rec[i]= 1;
+                  rec[j]= 1;
+              }
+          }
+      }
+
+      // Coloring the rectanngle
+
+      for(var j=0;j<rec.length;j++){
+        console.log("Color Of ",j);
+        console.log("Color ",rec[j]);
+        
+        var left = img_width * this.state.res[k][0][j].BoundingBox.Left;
+        var top = img_height * this.state.res[k][0][j].BoundingBox.Top;
+        var height = img_height * this.state.res[k][0][j].BoundingBox.Height;
+        var width = img_width * this.state.res[k][0][j].BoundingBox.Width;
+        ctx.strokeStyle= colors[rec[j]];
+        ctx.strokeRect(left,top,width,height);
+      }
+
+      
       timg.src= canvas.toDataURL();
       var li = document.createElement("li");
       li.innerHTML += "<b>Frame at second "  + ":</b><br />";
       li.appendChild(timg);
       var fr = document.getElementById("frames").childNodes[0];
-      document.getElementById("frames").replaceChild(li,fr);
-      console.log("INside Display bounding",this.state.res[this.state.updatedsec/5]);
-      
+      document.getElementById("frames").replaceChild(li,fr);   
   }
-
-      // ctx.rect(100,200,300,400);
-      
-
-   console.log("INside Display bounding",this.state.res[this.state.updatedsec/5][0]);
-  //  alert(this.state);
 
  }
   getVideoImage = (path, secs, callback) => {
@@ -355,7 +275,7 @@ class CCTV extends React.Component {
     }
     //Call Rekognition
     this.state.res.push(this.detectFaces(imageBytes));
-    console.log("Checking state afetr detect faces",this.state.res);
+    // console.log("Checking state afetr detect faces",this.state.res);
     this.setState({
       gotres:true,
       updatedsec:secs,

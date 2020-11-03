@@ -50,7 +50,9 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/getDistanceRes", (req, res) => {});
+router.post("/getDistanceRes", (req, res) => {
+  
+});
 
 router.post("/find", (req, res) => {
   // console.log('data body received',req.body);
