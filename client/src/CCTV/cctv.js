@@ -1,7 +1,10 @@
 import React from "react";
 import { Box, Typography, Container, Button } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 // import { dataURLtoBlob } from "blueimp-canvas-to-blob";
 import vid from "./vid3.mp4";
+import { makeStyles } from '@material-ui/core/styles';
+import Alert from '@material-ui/lab/Alert';
 import Async from 'react-promise';
 const AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
@@ -14,6 +17,8 @@ class CCTV extends React.Component {
       vid: vid,
       distanceFromCamera:[],
       show:[],
+      k:0,
+      framecount:0,
       allXy:[],
       oneMrDisInpixel:70,
       focal:3,
@@ -22,6 +27,9 @@ class CCTV extends React.Component {
       roi:[],
       lists:[],
       canva:null,
+      displayAlert:false,
+      avgWatTime:0,
+      suggestion:"All Clear",
       updatedsec:0,
       gotres:false,
       videoHeight:0,
@@ -35,6 +43,18 @@ class CCTV extends React.Component {
     // this.detectFaces.bind(this);
     this.anonLog.bind(this);
   }
+ useStyles = () => makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: 140,
+    width: 100,
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+}));
 
   displayFrame = () => {
     this.setState((state) => ({
@@ -48,60 +68,123 @@ class CCTV extends React.Component {
   
 
   render() {
+    const classes = this.useStyles();
     return (
-      <Container>
-        <Box>
-          <Typography variant="h6" color="textSecondary">
-            Inside CCTV
-            <Box>
-              <video width="480" controls>
+      
+     <Box>
+        <Grid container className={classes.root} spacing={2}>
+      <Grid item xs={12}>
+        <Grid container justify="left" spacing={2}>
+           <Grid item>
+                    <Typography variant="h6" color="textSecondary">
+                    Inside CCTV
+                    </Typography>
+            </Grid>
+            <Grid item>
+                     <Box >
+          {this.state.dis && !this.state.gotres ? this.showImageAt(0) : console.log("Avoided")}
+          {this.state.dis ? <div id="frames"></div> : <div></div>}
+          </Box>
+            </Grid>
+            <Grid item>
+              <Grid container justify="center" spacing={2}>
+                <Grid item>
+                          <Button
+            
+                            variant="contained"
+                            color="primary"
+                            onClick={this.displayFrame}
+                          >
+                            Get Frames
+                          </Button>
+                </Grid>
+
+              </Grid>
+              <Grid container justify="center" spacing={2}>
+                <Grid item>
+                           <Button
+                          variant="contained"
+                            color="primary"
+                            onClick={this.seeState}
+                          >
+                            See Analysis
+
+                          </Button>
+                </Grid>
+
+              </Grid>
+              <Grid container justify="center" spacing={2}>
+                <Grid item>
+                  {
+                    this.state.displayAlert? <Alert variant="outlined" severity="error">
+                      Social Distancing Violated
+                  </Alert> : console.log()
+                  }
+                 
+                </Grid>
+
+              </Grid>
+              <Grid container justify="center" spacing={2}>
+                <Grid item>
+                  {
+                    this.state.avgWatTime>10?
+                     <Alert variant="outlined" severity="info">
+                      Average Waiting Time: {this.state.avgWatTime}
+                    </Alert> : console.log()
+                  }
+                 
+                </Grid>
+
+              </Grid>
+              <Grid container justify="center" spacing={2}>
+                <Grid item>
+                  {
+                    this.state.avgWatTime>10?
+                     <Alert variant="outlined" severity="success">
+                      Cutstomers may ask for new Counters.
+                    </Alert> : console.log()
+                  }
+                 
+                </Grid>
+
+              </Grid>
+            </Grid>
+        </Grid>
+      </Grid>
+      </Grid>
+        <Box  >
+              <Box display="none" alignItems="left">
+                <video width="480" controls>
                 <source src={vid} type="video/mp4" />
                 <Typography>
                   Your browser does not support HTML5 video.
                 </Typography>
               </video>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={this.displayFrame}
-              >
-                Get Frames
-              </Button>
-
-              <Button
-              variant="contained"
-                color="primary"
-                onClick={this.seeState}
-              >
-                See State
-
-              </Button>
+              </Box>
+             
+                           
             </Box>
-          </Typography>
-          {
-            this.displayBoundingBox()
-          }
-
-          {this.state.dis && !this.state.gotres ? this.showImageAt(0) : console.log("Avoided")}
-          {this.state.dis ? <div id="frames"></div> : <div></div>}
-        </Box>
-      </Container>
+</Box>
     );
   }
 
  drrec = () =>{
-
  }
-
+setTimeoutAsync = (cb, delay) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(cb());
+    }, delay);
+  });
  seeState = () =>{
   //  console.log(this.state.res[this.state.updatedsec/5][0]);
   if(this.state.res[this.state.updatedsec/5][0]!=null){
       var canvas = document.createElement("canvas");
-      var img = this.state.lists[this.state.updatedsec/5];
+      var k= this.state.k;
+      var img = this.state.lists[k];
       canvas.height = this.state.videoHeight;
       canvas.width = this.state.videoWidth;
       var ctx = canvas.getContext("2d");
-
       var img_width = this.state.videoWidth;
       var img_height = this.state.videoHeight;
       const rec=[];
@@ -112,8 +195,7 @@ class CCTV extends React.Component {
       var timg= new Image();
       var prevx,prevy;
       console.log("Total Results Obtained",this.state.res.length);
-
-        var k= this.state.res.length-1;
+        
         var cc = k%colors.length;
         ctx.strokeStyle= colors[cc];
         var arr2=[];
@@ -128,20 +210,10 @@ class CCTV extends React.Component {
         var midpoint_y = Math.floor((top+height)/2);
         console.log("Mid X",midpoint_x);
         console.log("Mid X",midpoint_x);
-        if(i==0){
-          prevx=midpoint_x;
-          prevy= midpoint_y;
-        }else{
-          var distance=(this.state.focal*(165))/ height;
-          console.log("Distance from camers",distance*100);
-          arr2.push(midpoint_x);
-          prevx=midpoint_x;
-          prevy= midpoint_y;
-        // ctx.strokeRect(left,top,width,height);
-        }
+        arr2.push(midpoint_x);
         rec.push(0);
-        // this.state.distanceFromCamera.push(arr2);
       }
+      var found= false;
       for( var i=0;i<arr2.length;i++){
           for( var j=0;j<arr2.length;j++){
               if(i==j) continue;
@@ -150,6 +222,7 @@ class CCTV extends React.Component {
               if(diff<this.state.oneMrDisInpixel){
                   rec[i]= 1;
                   rec[j]= 1;
+                  found= true;
               }
           }
       }
@@ -171,16 +244,30 @@ class CCTV extends React.Component {
       
       timg.src= canvas.toDataURL();
       var li = document.createElement("li");
-      li.innerHTML += "<b>Frame at second "  + ":</b><br />";
+      li.innerHTML += this.state.framecount++ +"<b>  Frame Result "  + ":</b><br />";
       li.appendChild(timg);
       var fr = document.getElementById("frames").childNodes[0];
-      document.getElementById("frames").replaceChild(li,fr);   
+      document.getElementById("frames").replaceChild(li,fr);
+      if(found){
+        k++;
+        k = k%this.state.res.length;
+        this.setTimeoutAsync(this.seeState,1000);
+
+        this.setState({
+          displayAlert:true,
+          avgWatTime:12,
+          k:k
+        });
+      }   
+
+  }else{
+    alert("Frames are loading");
   }
 
  }
   getVideoImage = (path, secs, callback) => {
     var me = this,
-      video = document.createElement("video");
+    video = document.createElement("video");
     video.onloadedmetadata = function () {
       if ("function" === typeof secs) {
         secs = secs(this.duration);
@@ -200,6 +287,7 @@ class CCTV extends React.Component {
       ctx.drawImage(video, 0, 0,video.videoWidth,video.videoHeight);
       // ctx.rect()
       // ctx.rect(30,40,30,40);
+
       var img = new Image();
       img.src = canvas.toDataURL();
       callback.call(me, img, this.currentTime, e,video.videoHeight,video.videoWidth,canvas);
@@ -246,7 +334,6 @@ class CCTV extends React.Component {
   };
 
   convertFile = (e) => {};
-
   processImage = (im,secs) => {
     this.anonLog();
     var img = document.createElement("img");
