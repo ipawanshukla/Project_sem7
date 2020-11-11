@@ -255,7 +255,7 @@ setTimeoutAsync = (cb, delay) =>
 
         this.setState({
           displayAlert:true,
-          avgWatTime:12,
+          avgWatTime:rec.length*3,
           k:k
         });
       }   

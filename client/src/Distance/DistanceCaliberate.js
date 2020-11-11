@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import { Box, Container, Typography ,Button} from "@material-ui/core";
-import img from "../getroi/img.jpeg";
+import img from "../getroi/696.jpg";
 import ReactDOM from 'react-dom';
 class DistanceCaliberate extends React.Component {
    constructor(props) {

@@ -7,6 +7,7 @@ import { Container, Box, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import TextField from '@material-ui/core/TextField';
 class GetRoi extends React.Component {
   constructor(props) {
     super(props);
@@ -20,9 +21,14 @@ class GetRoi extends React.Component {
       y3: 0,
       x4: 0,
       y4: 0,
+      focal:0,
     };
     this.imageRef = React.createRef();
   }
+   handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  };
   getCoordinates(e) {
     if (this.state.count == 0) {
       this.setState({
@@ -224,7 +230,22 @@ class GetRoi extends React.Component {
                         Point 4: ({this.state.x4}, {this.state.y4})
                       </Typography>
                     </Box>
-
+                      <Grid container item xs={10} spacing={1}>
+                      <Grid item xs={4}>
+                        <Typography> Focal Length </Typography>
+                          <Box textAlign="right">
+                            <TextField
+                              id="standard-number"
+                              
+                              type="number"
+                              onChange={this.handleChange}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                            />
+                          </Box>
+                      </Grid>
+                    </Grid>
                     <Grid container item xs={10} spacing={1}>
                       <Grid item xs={4}>
                         <Paper className={classes.paper}>
@@ -253,6 +274,7 @@ class GetRoi extends React.Component {
                         </Paper>
                       </Grid>
                     </Grid>
+                    
                   </Paper>
                 </Grid>
                 {/* <Grid item xs={4}>
