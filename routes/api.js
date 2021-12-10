@@ -88,8 +88,8 @@ router.post("/login", (req, res) => {
 
 router.post("/s3", (req, res) => {
   AWS.config.update({
-    accessKeyId: "AKIAZZQRCS5X6UZRUAUR",
-    secretAccessKey: "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",
+    accessKeyId: "",
+    secretAccessKey: "",
   });
 
   let s3 = new AWS.S3();
