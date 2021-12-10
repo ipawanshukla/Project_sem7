@@ -373,7 +373,7 @@ setTimeoutAsync = (cb, delay) =>
     // Configure the credentials provider to use your identity pool
     AWS.config.region = "us-east-1"; // Region
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: "us-east-1:16225f41-e3f4-4861-92d4-baf127091ee8",
+      IdentityPoolId: "",
     });
     // Make the call to obtain credentials
     AWS.config.credentials.get(function () {
